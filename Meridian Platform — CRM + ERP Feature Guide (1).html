@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meridian Platform — CRM + ERP Feature Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --ink:#16252A; --muted:#56666B; --line:#D9E0DE;
+  --crm:#0E7C74; --crm-soft:#E2F2EF; --erp:#3446A0; --erp-soft:#E6E9F7;
+  --ai:#9A5B12; --ai-soft:#F7EDDF; --plat:#3E4C59; --plat-soft:#E7EBEF;
+  --hero:#16252A; --hero-ink:#F3F5F4; --hero-muted:#A9BBBE;
+  --head:'Sora', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --body:'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1719; --surface:#172124; --ink:#E6EEEC; --muted:#9AABAE; --line:#2A383B;
+    --crm:#4FC1B4; --crm-soft:#133330; --erp:#9AA7EE; --erp-soft:#1C2240;
+    --ai:#E0A45A; --ai-soft:#33260F; --plat:#B3C1CE; --plat-soft:#1F282F;
+    --hero:#0A1113; --hero-ink:#E6EEEC; --hero-muted:#8FA2A5;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1719; --surface:#172124; --ink:#E6EEEC; --muted:#9AABAE; --line:#2A383B;
+  --crm:#4FC1B4; --crm-soft:#133330; --erp:#9AA7EE; --erp-soft:#1C2240;
+  --ai:#E0A45A; --ai-soft:#33260F; --plat:#B3C1CE; --plat-soft:#1F282F;
+  --hero:#0A1113; --hero-ink:#E6EEEC; --hero-muted:#8FA2A5;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth; scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased}
+img{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--crm); outline-offset:2px; border-radius:4px}
+.wrap{max-width:1160px; margin:0 auto; padding:0 24px}
+h1,h2,h3,h4{font-family:var(--head); margin:0; letter-spacing:-0.01em; line-height:1.2}
+
+/* HERO */
+.hero{background:var(--hero); color:var(--hero-ink); padding:64px 0 56px}
+.hero .kicker{color:var(--hero-muted); font-size:15px; margin-bottom:18px}
+.hero h1{font-size:clamp(34px,5.2vw,58px); font-weight:700; max-width:17ch; line-height:1.08}
+.hero p.lede{color:var(--hero-muted); font-size:19px; max-width:62ch; margin:20px 0 0}
+.meridian{margin-top:44px; display:grid; grid-template-columns:1fr 2px 1fr; gap:0 28px; align-items:start}
+.meridian .axis{background:linear-gradient(var(--crm),var(--erp)); height:100%; border-radius:2px; position:relative}
+.side h3{font-size:15px; font-weight:600; color:var(--hero-muted); margin-bottom:10px}
+.side .big{font-family:var(--head); font-size:clamp(40px,6vw,72px); font-weight:700; line-height:1}
+.side.crm .big{color:#6FD3C6} .side.erp .big{color:#AEB9F4}
+.side .count{color:var(--hero-muted); font-size:15px; margin:6px 0 14px}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chips a{font-size:14px; text-decoration:none; padding:4px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.18); color:var(--hero-ink)}
+.chips a:hover{background:rgba(255,255,255,.08)}
+.base{grid-column:1 / -1; margin-top:28px; display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.base a{display:block; text-decoration:none; padding:14px 16px; border-radius:10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12)}
+.base b{font-family:var(--head); font-weight:600; display:block; font-size:16px}
+.base span{color:var(--hero-muted); font-size:14.5px}
+.base .ai b{color:#F0C48A} .base .pl b{color:#C9D4DE}
+.stats{display:flex; flex-wrap:wrap; gap:28px 44px; margin-top:36px; color:var(--hero-muted); font-size:15px}
+.stats strong{display:block; font-family:var(--head); font-size:26px; color:var(--hero-ink)}
+
+/* NAV */
+.nav{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px)}
+.nav .wrap{display:flex; align-items:center; gap:16px; height:60px}
+.nav .links{display:flex; gap:4px; overflow-x:auto; flex:1; scrollbar-width:none}
+.nav .links::-webkit-scrollbar{display:none}
+.nav .links a{white-space:nowrap; text-decoration:none; font-size:15px; font-weight:500; color:var(--muted); padding:6px 10px; border-radius:6px}
+.nav .links a:hover{color:var(--ink); background:var(--surface)}
+.theme-btn{border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:8px; padding:6px 10px; font:inherit; font-size:14px; cursor:pointer}
+
+/* SECTIONS */
+section.block{padding:72px 0 8px}
+.sec-head{display:grid; grid-template-columns:64px 1fr; gap:0 12px; margin-bottom:28px}
+.sec-no{font-family:var(--head); font-weight:700; font-size:30px; color:var(--line); line-height:1.1}
+.sec-head h2{font-size:clamp(26px,3.4vw,36px)}
+.sec-head p{grid-column:2; color:var(--muted); margin:10px 0 0; max-width:70ch}
+.prose{max-width:72ch}
+.prose p{margin:0 0 14px}
+
+/* CRM vs ERP */
+.versus{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.vcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:24px}
+.vcard.crm{border-top:4px solid var(--crm)} .vcard.erp{border-top:4px solid var(--erp)}
+.vcard h3{font-size:21px; margin-bottom:6px}
+.vcard .q{color:var(--muted); margin:0 0 14px}
+.vcard ul{margin:0; padding-left:18px}
+.vcard li{margin:6px 0}
+.why{margin-top:18px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px 24px}
+.why h3{font-size:18px; margin-bottom:12px}
+.why .row{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.why .row div b{display:block; margin-bottom:4px}
+.why .row div{color:var(--muted); font-size:16px}
+.why .row div b{color:var(--ink)}
+
+/* LAYERS */
+.layers{display:grid; gap:10px}
+.layer{display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center; padding:18px 20px; border-radius:12px; border:1px solid var(--line); background:var(--surface)}
+.layer .ln{font-family:var(--head); font-weight:600; font-size:14px; color:var(--muted)}
+.layer h4{font-size:17px; margin-bottom:4px}
+.layer p{margin:0; color:var(--muted); font-size:16px}
+.layer.l3{background:var(--ai-soft); border-color:transparent}
+.layer.l2{background:var(--crm-soft); border-color:transparent}
+.layer.l1{background:var(--plat-soft); border-color:transparent}
+
+/* TOOLBAR */
+.toolbar{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:22px}
+.search{flex:1 1 280px; position:relative}
+.search input{width:100%; font:inherit; font-size:16px; padding:11px 14px; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink)}
+.filters{display:flex; gap:6px; flex-wrap:wrap}
+.filters button{font:inherit; font-size:15px; font-weight:500; padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--muted); cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.result-note{color:var(--muted); font-size:15px; margin:-8px 0 18px; min-height:1em}
+
+/* GROUP + DOMAIN */
+.group-title{display:flex; align-items:baseline; gap:12px; margin:40px 0 16px; padding-bottom:10px; border-bottom:2px solid var(--gc)}
+.group-title h3{font-size:24px; color:var(--gc)}
+.group-title span{color:var(--muted); font-size:15px}
+.group-intro{color:var(--muted); max-width:72ch; margin:-4px 0 20px}
+.domain{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--gc); border-radius:12px; padding:24px 24px 20px; margin-bottom:16px}
+.d-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 14px}
+.d-head h4{font-size:22px}
+.tag{font-size:13px; font-weight:600; padding:2px 9px; border-radius:6px; background:var(--gs); color:var(--gc)}
+.d-count{color:var(--muted); font-size:14.5px; margin-left:auto}
+.d-intro{margin:8px 0 18px; color:var(--muted); max-width:78ch}
+.feats{display:grid; grid-template-columns:1fr 1fr; gap:4px 28px; margin:0; padding:0; list-style:none}
+.feats li{padding:12px 0; border-top:1px solid var(--line)}
+.feats li b{display:block; font-weight:700; margin-bottom:2px}
+.feats li p{margin:0; color:var(--muted); font-size:16px; line-height:1.5}
+.feats mark{background:var(--ai-soft); color:inherit; border-radius:3px; padding:0 1px}
+.connects{margin-top:14px; font-size:15px; color:var(--muted)}
+.connects b{color:var(--ink); font-weight:600}
+.g-crm{--gc:var(--crm); --gs:var(--crm-soft)}
+.g-erp{--gc:var(--erp); --gs:var(--erp-soft)}
+.g-ai{--gc:var(--ai); --gs:var(--ai-soft)}
+.g-pl{--gc:var(--plat); --gs:var(--plat-soft)}
+.empty{padding:28px; text-align:center; color:var(--muted); background:var(--surface); border:1px dashed var(--line); border-radius:12px}
+
+/* FLOW */
+.flow{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; counter-reset:step}
+.step{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px}
+.step .n{font-family:var(--head); font-weight:700; color:var(--muted); font-size:14px}
+.step h4{font-size:17px; margin:6px 0}
+.step p{margin:0; color:var(--muted); font-size:15.5px}
+.step.ai{background:var(--ai-soft); border-color:transparent}
+.branch{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px}
+.branch div{border-radius:12px; padding:16px 18px}
+.branch .ok{background:var(--crm-soft)} .branch .hu{background:var(--erp-soft)}
+.branch b{display:block; font-family:var(--head); font-weight:600}
+.branch span{color:var(--muted); font-size:15.5px}
+.audit{margin-top:12px; padding:12px 16px; border:1px dashed var(--line); border-radius:10px; color:var(--muted); font-size:15px}
+
+/* GUARDRAILS */
+.guards{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.guard{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px}
+.guard h4{font-size:16.5px; margin-bottom:6px}
+.guard p{margin:0; color:var(--muted); font-size:15.5px}
+
+/* PHASES */
+.phases{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.phase{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px; position:relative}
+.phase .n{font-family:var(--head); font-weight:700; font-size:42px; color:var(--line); line-height:1}
+.phase h4{font-size:18px; margin:8px 0 6px}
+.phase p{margin:0 0 10px; color:var(--muted); font-size:16px}
+.phase .mods{font-size:14.5px; color:var(--muted)}
+.phase .mods b{color:var(--ink)}
+
+/* GLOSSARY */
+.gloss{display:grid; grid-template-columns:repeat(3,1fr); gap:0 28px; margin:0}
+.gloss div{padding:12px 0; border-top:1px solid var(--line)}
+.gloss dt{font-family:var(--head); font-weight:600; font-size:16px}
+.gloss dd{margin:2px 0 0; color:var(--muted); font-size:15.5px}
+
+
+/* CRM FLOW TREE */
+.ct{--ctl:color-mix(in srgb, var(--crm) 40%, var(--line))}
+.ct-root{display:flex; flex-direction:column; align-items:center; text-align:center}
+.ct-rootnode{background:var(--crm); color:var(--surface); border-radius:16px; padding:16px 34px}
+.ct-rootnode h3{font-size:clamp(26px,3.6vw,36px)}
+.ct-rootnode p{margin:4px 0 0; font-size:15px; opacity:.9}
+.ct-stem{width:2px; height:30px; background:var(--ctl)}
+.ct-branches{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; position:relative; padding-top:30px}
+.ct-branches::before{content:""; position:absolute; top:0; left:10%; right:10%; height:2px; background:var(--ctl)}
+.ct-branch{position:relative}
+.ct-branch::before{content:""; position:absolute; top:-30px; left:50%; width:2px; height:30px; background:var(--ctl)}
+.ct-mod{background:var(--surface); border:2px solid var(--crm); border-radius:14px; padding:12px; text-align:center}
+.ct-mod h4{font-size:17px; color:var(--crm)}
+.ct-mod p{margin:4px 0 0; color:var(--muted); font-size:14px}
+.ct-mod .n{display:inline-block; margin-top:8px; font-size:13px; font-weight:700; color:var(--crm); background:var(--crm-soft); border-radius:999px; padding:2px 10px}
+.ct-feats{list-style:none; margin:0; padding:0 0 0 16px; position:relative}
+.ct-feats::before{content:""; position:absolute; left:16px; top:0; bottom:22px; width:2px; background:var(--ctl)}
+.ct-feat{position:relative; padding:12px 0 0 16px}
+.ct-feat::before{content:""; position:absolute; left:0; top:32px; width:16px; height:2px; background:var(--ctl)}
+.ct-card{background:var(--crm-soft); border-radius:10px; padding:9px 11px}
+.ct-card b{display:block; font-size:15px}
+.ct-card span{display:block; color:var(--muted); font-size:13.5px; margin-top:2px; line-height:1.4}
+.ct-foot{margin-top:28px; text-align:center; color:var(--muted); font-size:15px}
+@media (max-width:1100px){
+  .ct-branches{grid-template-columns:repeat(3,1fr); row-gap:36px}
+  .ct-branches::before{left:16%; right:16%}
+  .ct-branch:nth-child(n+4)::before{display:none}
+}
+@media (max-width:720px){
+  .ct-branches{grid-template-columns:1fr; gap:26px; padding-top:0; padding-left:20px; border-left:2px solid var(--ctl); margin-left:8px}
+  .ct-branches::before{display:none}
+  .ct-branch::before,.ct-branch:nth-child(n+4)::before{display:block; top:24px; left:-20px; width:20px; height:2px}
+  .ct-root{align-items:flex-start; text-align:left}
+  .ct-stem{margin-left:8px; height:22px}
+  .ct-mod{text-align:left}
+}
+
+
+/* ERP FLOW TREE */
+.et{--etl:color-mix(in srgb, var(--erp) 40%, var(--line)); margin:6px 0 40px}
+.et-root{display:flex; flex-direction:column; align-items:center; text-align:center}
+.et-rootnode{background:var(--erp); color:var(--surface); border-radius:16px; padding:16px 34px}
+.et-rootnode h4{font-size:clamp(26px,3.6vw,36px)}
+.et-rootnode p{margin:4px 0 0; font-size:15px; opacity:.9}
+.et-stem{width:2px; height:30px; background:var(--etl)}
+.et-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; position:relative; padding-top:30px; margin-bottom:36px}
+.et-row:last-child{margin-bottom:0}
+.et-row::before{content:""; position:absolute; top:0; left:12.5%; right:12.5%; height:2px; background:var(--etl)}
+.et-row:not(:last-child)::after{content:""; position:absolute; top:0; bottom:-36px; left:calc(50% - 1px); width:2px; background:var(--etl)}
+.et-branch{position:relative; z-index:1}
+.et-branch::before{content:""; position:absolute; top:-30px; left:50%; width:2px; height:30px; background:var(--etl)}
+.et-mod{display:block; text-decoration:none; background:var(--surface); border:2px solid var(--erp); border-radius:14px; padding:12px; text-align:center}
+.et-mod h5{font-family:var(--head); font-size:16.5px; margin:0; color:var(--erp); line-height:1.25}
+.et-mod p{margin:4px 0 0; color:var(--muted); font-size:14px}
+.et-mod .n{display:inline-block; margin-top:8px; font-size:13px; font-weight:700; color:var(--erp); background:var(--erp-soft); border-radius:999px; padding:2px 10px}
+.et-feats{list-style:none; margin:0; padding:0 0 0 16px; position:relative}
+.et-feats::before{content:""; position:absolute; left:16px; top:0; bottom:22px; width:2px; background:var(--etl)}
+.et-feat{position:relative; padding:12px 0 0 16px}
+.et-feat::before{content:""; position:absolute; left:0; top:32px; width:16px; height:2px; background:var(--etl)}
+.et-card{background:var(--erp-soft); border-radius:10px; padding:9px 11px}
+.et-card b{display:block; font-size:15px}
+.et-card span{display:block; color:var(--muted); font-size:13.5px; margin-top:2px; line-height:1.4}
+@media (max-width:900px){
+  .et-rows{padding-left:20px; border-left:2px solid var(--etl); margin-left:8px}
+  .et-row{grid-template-columns:1fr; gap:26px; padding-top:0; margin-bottom:26px}
+  .et-row::before,.et-row::after{display:none}
+  .et-branch::before{top:24px; left:-20px; width:20px; height:2px}
+  .et-root{align-items:flex-start; text-align:left}
+  .et-stem{margin-left:8px; height:22px}
+  .et-mod{text-align:left}
+}
+
+footer{margin-top:80px; padding:32px 0 48px; border-top:1px solid var(--line); color:var(--muted); font-size:15px}
+
+@media (max-width: 860px){
+  .meridian{grid-template-columns:1fr; gap:24px}
+  .meridian .axis{height:2px; width:100%}
+  .base{grid-template-columns:1fr}
+  .versus,.why .row,.feats,.branch,.guards,.phases,.gloss{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .sec-head{grid-template-columns:1fr}
+  .sec-head p{grid-column:1}
+  .sec-no{font-size:22px; margin-bottom:4px}
+  .layer{grid-template-columns:1fr; gap:6px}
+  .d-count{margin-left:0; width:100%}
+}
+@media (max-width: 520px){
+  .wrap{padding:0 16px}
+  .flow{grid-template-columns:1fr}
+  .domain{padding:20px 16px 16px}
+  body{font-size:16.5px}
+}
+@media print{ .nav,.toolbar,.result-note,.theme-btn{display:none} .domain{break-inside:avoid} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Meridian Platform — built from ARIA (CRM) + VELORIS (ERP)</div>
+    <h1>Every CRM and ERP feature, explained in one place.</h1>
+    <p class="lede">A single platform where sales, service, finance, supply chain, people and operations work from the same live record — with a governed team of AI agents on top. This guide walks through all 155 features, module by module, and what each one does for the business.</p>
+
+    <div class="meridian" aria-label="Platform map">
+      <div class="side crm">
+        <h3>Sell &amp; serve — the CRM side</h3>
+        <div class="big">22</div>
+        <div class="count">features across 5 modules</div>
+        <div class="chips" id="chips-crm"></div>
+      </div>
+      <div class="axis" aria-hidden="true"></div>
+      <div class="side erp">
+        <h3>Run &amp; deliver — the ERP side</h3>
+        <div class="big">95</div>
+        <div class="count">features across 16 modules</div>
+        <div class="chips" id="chips-erp"></div>
+      </div>
+      <div class="base">
+        <a class="ai" href="#d-ai"><b>AI &amp; Agents — 16 features</b><span>A copilot and specialised agents that act across both sides, within approved limits.</span></a>
+        <a class="pl" href="#d-platform"><b>Platform foundation — 22 features</b><span>The shared data graph, security, workflow, analytics and integrations underneath everything.</span></a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div><strong>155</strong>documented features</div>
+      <div><strong>23</strong>business modules</div>
+      <div><strong>16</strong>AI agents &amp; controls</div>
+      <div><strong>1</strong>shared source of truth</div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Sections">
+  <div class="wrap">
+    <div class="links">
+      <a href="#overview">Overview</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#crm-flow">CRM flow</a>
+      <a href="#features">All features</a>
+      <a href="#g-crm">CRM</a>
+      <a href="#g-erp">ERP</a>
+      <a href="#g-ai">AI agents</a>
+      <a href="#g-pl">Platform</a>
+      <a href="#flow">End-to-end flow</a>
+      <a href="#trust">Trust &amp; control</a>
+      <a href="#rollout">Rollout</a>
+      <a href="#glossary">Glossary</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Theme</button>
+  </div>
+</nav>
+
+<main>
+  <section class="block" id="overview">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">01</div><div><h2>What CRM and ERP each do — and why they belong together</h2></div>
+        <p>Most companies run customer data and operations data in separate systems. Meridian merges them so every team, report and AI agent reads the same record.</p></div>
+
+      <div class="versus">
+        <div class="vcard crm">
+          <h3>CRM — Customer Relationship Management</h3>
+          <p class="q">Answers: who are our customers, what do they want, and how do we win and keep them?</p>
+          <ul>
+            <li>One trusted record and full history for every customer (Customer 360)</li>
+            <li>Leads, pipeline, deals, quotes and sales orders</li>
+            <li>Contracts, subscriptions, loyalty and engagement</li>
+            <li>Support cases, omnichannel service, field service and warranty</li>
+          </ul>
+        </div>
+        <div class="vcard erp">
+          <h3>ERP — Enterprise Resource Planning</h3>
+          <p class="q">Answers: how do we buy, make, store, ship, pay, account for and staff all of it?</p>
+          <ul>
+            <li>Finance, accounting, planning and financial close</li>
+            <li>Procurement, supply chain, warehouse and logistics</li>
+            <li>Product engineering, manufacturing, quality and assets</li>
+            <li>People (HCM), projects, safety &amp; compliance, retail POS</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="why">
+        <h3>The problem the merge solves</h3>
+        <div class="row">
+          <div><b>Data lives in silos</b>Customer, order, invoice and inventory records get copied across tools and quietly drift out of sync.</div>
+          <div><b>Teams work blind</b>A sales rep can't see an order stuck in the warehouse; finance can't see why a customer is upset.</div>
+          <div><b>AI stays shallow</b>An assistant plugged into only CRM or only ERP can never give a complete, trustworthy answer.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="architecture">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">02</div><div><h2>One shared foundation, four layers</h2></div>
+        <p>Every screen, report and AI agent reads and writes to the same foundation. Nothing is duplicated, so a change in one place shows up correctly everywhere else.</p></div>
+      <div class="layers">
+        <div class="layer l4"><div class="ln">Layer 4</div><div><h4>People &amp; channels</h4><p>Sales and service teams, finance and ops teams, customers and suppliers — working through web, mobile, voice and chat.</p></div></div>
+        <div class="layer l3"><div class="ln">Layer 3</div><div><h4>AI agent workforce</h4><p>16 governed agents and controls for sales, service, finance, retention, pricing and compliance — each acting only within approved limits, always logged.</p></div></div>
+        <div class="layer l2"><div class="ln">Layer 2</div><div><h4>Business modules</h4><p>21 CRM and ERP modules — from Customer 360 and Sales to Finance, Manufacturing, HCM, EHS and Retail.</p></div></div>
+        <div class="layer l1"><div class="ln">Layer 1</div><div><h4>Platform foundation</h4><p>One shared record of every customer, order, product, asset and employee — plus identity, security, permissions, workflow and an unchangeable audit trail.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block ct" id="crm-flow">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">03</div><div><h2>CRM at a glance</h2></div>
+        <p>Every CRM module and the features under it, from first contact to loyal customer — all on the same shared customer record.</p></div>
+      <div class="ct-root">
+        <div class="ct-rootnode"><h3>CRM</h3><p>Customer Relationship Management · 5 modules · 22 features</p></div>
+        <div class="ct-stem" aria-hidden="true"></div>
+      </div>
+      <div class="ct-branches" id="crmTree"></div>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">04</div><div><h2>Complete feature catalogue</h2></div>
+        <p>All 155 features, grouped into CRM, ERP, AI and Platform. Search for any feature or filter by side.</p></div>
+
+      <div class="toolbar">
+        <div class="search"><label for="q" class="sr" style="position:absolute;left:-9999px">Search features</label>
+          <input id="q" type="search" placeholder="Search features, e.g. invoice, payroll, warranty…" autocomplete="off"></div>
+        <div class="filters" role="group" aria-label="Filter by side">
+          <button type="button" data-f="all" aria-pressed="true">All</button>
+          <button type="button" data-f="crm" aria-pressed="false">CRM</button>
+          <button type="button" data-f="erp" aria-pressed="false">ERP</button>
+          <button type="button" data-f="ai" aria-pressed="false">AI</button>
+          <button type="button" data-f="pl" aria-pressed="false">Platform</button>
+        </div>
+      </div>
+      <div class="result-note" id="note" aria-live="polite"></div>
+      <div id="catalogue"></div>
+    </div>
+  </section>
+
+  <section class="block" id="flow">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">05</div><div><h2>One customer message, traced end to end</h2></div>
+        <p>A customer emails about a late order. This is where CRM, ERP and AI meet — and where a human stays in control.</p></div>
+      <div class="flow">
+        <div class="step"><div class="n">Step 1</div><h4>Customer emails</h4><p>"Where's my order?" arrives through Omnichannel Support.</p></div>
+        <div class="step ai"><div class="n">Step 2 · AI</div><h4>Copilot reads the record</h4><p>It opens the unified customer record and creates a service case.</p></div>
+        <div class="step ai"><div class="n">Step 3 · AI</div><h4>Service Agent checks status</h4><p>It looks at the sales order, warehouse picking and shipment — same data, live.</p></div>
+        <div class="step"><div class="n">Step 4</div><h4>Decision</h4><p>Autonomy Controls decide whether the agent can act alone or needs a person.</p></div>
+      </div>
+      <div class="branch">
+        <div class="ok"><b>Within authority</b><span>The agent resolves it directly and sends the customer a real, accurate update.</span></div>
+        <div class="hu"><b>Needs judgement</b><span>It is routed to a human agent with the full context — order, shipment, history — already attached.</span></div>
+      </div>
+      <div class="audit">Every step is written to the Immutable Audit Trail: who or what did it, when, and why.</div>
+    </div>
+  </section>
+
+  <section class="block" id="trust">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">06</div><div><h2>Trust &amp; control for AI agents</h2></div>
+        <p>The more an agent can do, the more tightly it is governed. These controls apply to every agent, every time.</p></div>
+      <div class="guards">
+        <div class="guard"><h4>Identity &amp; access control</h4><p>Every person and every agent has a defined role and sees only what that role permits.</p></div>
+        <div class="guard"><h4>Approval gates</h4><p>Anything above an agent's authority — a discount, a refund, a commitment — waits for a human.</p></div>
+        <div class="guard"><h4>Immutable audit trail</h4><p>Every action, human or AI, is permanently logged with its reasoning attached.</p></div>
+        <div class="guard"><h4>Consent &amp; privacy</h4><p>Customer consent is tracked at its source and respected wherever the data travels.</p></div>
+        <div class="guard"><h4>Encryption &amp; key management</h4><p>Data is encrypted at rest and in transit to enterprise security standards.</p></div>
+        <div class="guard"><h4>AI explainability</h4><p>Every AI decision can be traced back to the data and policy that produced it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="rollout">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">07</div><div><h2>A staged rollout, not a big-bang switch</h2></div>
+        <p>A phased approach proves value early and keeps risk low.</p></div>
+      <div class="phases">
+        <div class="phase"><div class="n">1</div><h4>Unify the customer record</h4><p>Merge identity, consent and relationship data. Stand up the Copilot and core sales and service agents.</p><div class="mods"><b>Modules:</b> Customer 360, Leads, Sales, Customer Service, Copilot, SDR, Deal, Service agents</div></div>
+        <div class="phase"><div class="n">2</div><h4>Connect finance &amp; operations</h4><p>Bring in the ledger, orders, inventory and procurement so agents act on real operational data.</p><div class="mods"><b>Modules:</b> Finance, Procurement, Supply Chain, Warehouse, Sales &amp; Distribution</div></div>
+        <div class="phase"><div class="n">3</div><h4>Scale the agent workforce</h4><p>Turn on the remaining agents, planning and forecasting, and full governance across every module.</p><div class="mods"><b>Modules:</b> EPM, Manufacturing, HCM, Projects, EHS, Retail, remaining agents</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="glossary">
+    <div class="wrap">
+      <div class="sec-head"><div class="sec-no">08</div><div><h2>Glossary of terms</h2></div>
+        <p>Short meanings of the abbreviations used in this guide.</p></div>
+      <dl class="gloss">
+        <div><dt>CRM</dt><dd>Customer Relationship Management — systems for sales, service and customer data.</dd></div>
+        <div><dt>ERP</dt><dd>Enterprise Resource Planning — systems for finance, supply chain, manufacturing, HR.</dd></div>
+        <div><dt>CPQ</dt><dd>Configure, Price, Quote — building accurate quotes from products and price rules.</dd></div>
+        <div><dt>SLA</dt><dd>Service Level Agreement — the promised response or resolution time.</dd></div>
+        <div><dt>CSAT</dt><dd>Customer Satisfaction score, usually from a short survey.</dd></div>
+        <div><dt>GL</dt><dd>General Ledger — the main set of accounting books.</dd></div>
+        <div><dt>AP / AR</dt><dd>Accounts Payable (what you owe) / Accounts Receivable (what you're owed).</dd></div>
+        <div><dt>EPM</dt><dd>Enterprise Performance Management — planning, budgeting, forecasting and close.</dd></div>
+        <div><dt>BOM</dt><dd>Bill of Materials — the components needed to make a product.</dd></div>
+        <div><dt>CAPA</dt><dd>Corrective And Preventive Action — fixing a problem and stopping it recurring.</dd></div>
+        <div><dt>HCM</dt><dd>Human Capital Management — HR, payroll, recruiting and workforce.</dd></div>
+        <div><dt>EHS</dt><dd>Environment, Health &amp; Safety.</dd></div>
+        <div><dt>POS / mPOS</dt><dd>Point of Sale / mobile Point of Sale for retail checkout.</dd></div>
+        <div><dt>EDI</dt><dd>Electronic Data Interchange — standard machine-to-machine business documents.</dd></div>
+        <div><dt>DLP</dt><dd>Data Loss Prevention — controls that stop sensitive data leaking.</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Meridian Platform — CRM + ERP Feature Guide. Built from the Meridian Complete Feature Specification and the ARIA + VELORIS Unified Platform Proposal (Sep 2026). 155 features · 23 modules · 16 AI agents &amp; controls.</div>
+</footer>
+
+<script>
+const DATA = [
+/* ================= CRM ================= */
+{g:'crm', id:'customer360', name:'Customer 360', tag:'CRM · Core',
+ intro:'The heart of the CRM side: one trusted record for every person, company and household the business deals with — shared by sales, finance, service and delivery.',
+ connects:'Every other module, Consent & Privacy Controls, Data Steward Agent',
+ f:[
+ ['Unified Customer Records','Every person, company, household or enterprise account lives as one record. Sales, finance, service and delivery all use it, so nobody works from an old copy or enters the same customer twice.'],
+ ['Customer Timeline & Memory','A running, time-ordered history of every interaction — calls, emails, orders, cases. Each fact is tagged with where it came from, when it was captured and how confident the system is in it, so people and AI know what to trust.'],
+ ['Relationship Mapping','Maps how people connect to companies, to each other and to deals. Instead of a flat contact list you see who influences whom and who actually makes decisions inside an account.'],
+ ['Duplicate & Identity Matching','Finds the same person or company appearing under different names, emails or channels and reconciles them into one — using both exact matching and approximate (fuzzy) matching.'],
+ ['Consent Management','A central log of what each customer has agreed to and why. That permission travels with their data, so every module and agent respects it automatically.']
+ ]},
+{g:'crm', id:'leads', name:'Lead Management', tag:'CRM · Sales',
+ intro:'Turns first contact into a qualified, correctly assigned opportunity — without losing any prospect along the way.',
+ connects:'Customer 360, Sales, SDR Agent',
+ f:[
+ ['Conversational Lead Capture','Captures leads straight from natural conversation on web chat, email, SMS or voice. Prospects are not forced through a rigid form first — the details are picked up from what they say.'],
+ ['Lead Scoring & Routing','Each incoming lead is scored, enriched with extra data and qualified, then sent to the right owner. AI can assist, but a person stays in control of the final outcome.'],
+ ['Lead Conversion Mapping','Converts a qualified lead into a contact, an organisation and a deal in one step. Configurable field mapping decides where each piece of data goes, so nothing is lost.']
+ ]},
+{g:'crm', id:'sales', name:'Sales', tag:'CRM · Sales',
+ intro:'The full commercial motion from open pipeline to signed order, contract and renewal.',
+ connects:'Finance (AR, Revenue Recognition), Supply Chain, Sales & Distribution, Deal / Quote / Negotiation / Pricing agents',
+ f:[
+ ['Sales Pipeline Management','Configure your own pipelines, stages and win-probabilities. Deal values roll up automatically into a live forecast, built on the same customer and deal records as the rest of the platform.'],
+ ['Opportunity Management','One place for a deal\'s value, products or services, pricing, activity history, risk flags and forecast category. A won deal hands off cleanly into finance and delivery.'],
+ ['Sales Engagement & Sequencing','Outreach sequences, playbooks, a shared inbox and follow-up tracking keep the team consistent. AI can help, but only inside policy limits a manager sets.'],
+ ['Quoting & Pricing (CPQ)','Builds quotes from configured products, price books, tax rules and commercial terms. Every quote passes through built-in approval routing before it goes to the customer.'],
+ ['Sales Order Management','Creates and approves sales orders and reserves stock against them. Orders flow directly into inventory and fulfilment, so nothing gets re-keyed.'],
+ ['Contracts & Subscriptions','Contracts and recurring subscriptions — renewals, terms and entitlements — are managed as proper, trackable commercial records, not loose attachments.']
+ ]},
+{g:'crm', id:'cx', name:'Customer Experience', tag:'CRM · Marketing',
+ intro:'Keeps customers engaged and loyal after the sale closes.',
+ connects:'Customer 360, Retention Agent',
+ f:[
+ ['Engagement & Loyalty','Runs engagement campaigns, offers and loyalty programmes. It uses the platform\'s own customer intelligence — history, value, behaviour — to suggest the next best action for each customer.']
+ ]},
+{g:'crm', id:'service', name:'Customer Service', tag:'CRM · Service',
+ intro:'Support that resolves issues fast and remembers every customer\'s history — including field visits, warranty cover and repairs.',
+ connects:'Customer 360, Asset Management, Knowledge Base, Service Agent, Knowledge Agent',
+ f:[
+ ['Case Management','Every customer or internal issue becomes a case with priority, SLA timer, status, resolution notes, sentiment and root cause — all in one record.'],
+ ['Omnichannel Support','Email, live chat, web forms and voice become one centralised conversation and case history. Customers also get a self-service portal to check progress themselves.'],
+ ['Knowledge Base','A governed library of FAQs, policies, procedures and resolution articles. Each carries its source and confidence, and both human agents and AI use it.'],
+ ['Customer Satisfaction Tracking','Captures a satisfaction (CSAT) score after every resolved case and rolls it into service analytics, linked to that customer\'s full history.'],
+ ['Field Service Management','Schedules and dispatches on-site service orders. Technicians work from mobile, and customers can follow progress on a service portal.'],
+ ['Warranty & Entitlements','Manages service contracts, warranty terms and entitlements, and routes each request automatically according to what the customer is actually covered for.'],
+ ['Depot Repair & Returns','Runs the repair-and-return process end to end, and writes the outcome back into the history of the specific asset that was repaired.']
+ ]},
+
+/* ================= ERP ================= */
+{g:'erp', id:'finance', name:'Finance', tag:'ERP · Finance',
+ intro:'The financial backbone — one ledger, every book, every currency — fed automatically by business events from across the platform.',
+ connects:'Sales, Procurement, Asset Management, HCM (payroll), Projects, EPM',
+ f:[
+ ['Multi-Dimensional Chart of Accounts','One configurable chart of accounts and hierarchy that supports multiple legal entities, fiscal calendars and functional currencies from a single setup.'],
+ ['Parallel Books of Record','A single business event updates local, group, tax and management books at the same time. Each book stays governed and consistent with no duplicate entry.'],
+ ['Journal Controls & Audit Linkage','Journals must balance and go through approval routing; corrections happen only by controlled reversal. A posted journal is never edited directly and always links back to its source.'],
+ ['Rule-Driven Subledger Accounting','Accounting entries are generated automatically from business events (invoices, shipments, payments) using configurable rules, and each stays traceable to its transaction.'],
+ ['Accounts Payable','Supplier invoices move from receipt through verification, approval and payment — connected to procurement and the supplier record.'],
+ ['Accounts Receivable','Customer billing, receivables, collections and running balances, connected to the same CRM and order records used everywhere else.'],
+ ['Fixed Asset Accounting','Capitalisation, depreciation schedules, transfers and retirement of assets, linked to the underlying physical asset record.'],
+ ['Lease Accounting','Manages the full lease lifecycle and its accounting treatment, integrated with asset and finance records.'],
+ ['Treasury & Cash Management','Centralises bank, cash and treasury operations for one clear view of liquidity across the business.'],
+ ['Revenue Recognition','Recognises revenue in step with the actual contract, order and billing activity — not as a disconnected finance-only exercise.'],
+ ['Tax Calculation & Reporting','Calculates and reports tax with jurisdiction-aware rules; every calculation can be audited back to its source transaction.'],
+ ['Expense Management','Employees capture expenses on their phone; receipts are read automatically, spend and mileage categorised, and every claim checked against policy with anomalies flagged.'],
+ ['Intercompany Transactions','Automates transactions between group companies — matching, netting and settlement — keeping each elimination traceable to where it started.']
+ ]},
+{g:'erp', id:'mgmtacc', name:'Management Accounting', tag:'ERP · Finance',
+ intro:'Shows where cost and profit really come from, using live operational data instead of spreadsheets.',
+ connects:'Finance, Manufacturing, Supply Chain, EPM',
+ f:[
+ ['Cost & Profit Centers','Defines cost centers, profit centers, internal orders and cost elements on one shared model, so every cost and profit has a clear owner.'],
+ ['Product Costing & Profitability','Calculates what each product costs and earns, connected directly to manufacturing and inventory data.'],
+ ['Activity-Based Costing','Allocates overhead by actual drivers and activities, with every allocated amount traceable back to its origin.']
+ ]},
+{g:'erp', id:'epm', name:'Enterprise Performance (EPM)', tag:'ERP · Planning',
+ intro:'Planning, forecasting and closing the books on one connected model, so plans and actuals always agree.',
+ connects:'Finance, Management Accounting, HCM, Sales, Supply Chain, Forecast Agent',
+ f:[
+ ['Integrated Planning & Budgeting','One connected planning model for finance, workforce, sales, supply, capital and project plans — replacing separate spreadsheets that never quite agree.'],
+ ['Driver-Based Planning','Plans are built from operational drivers (volumes, prices, headcount) and how they link to results, so you see why a number moves, not just that it moved.'],
+ ['Scenario Planning','Planners branch off personal or team "what-if" scenarios. Nothing touches the shared plan until someone deliberately merges it in.'],
+ ['Rolling Forecast','The forecast rolls forward automatically. Manual overrides are recorded with who made them and why, next to the machine-generated number.'],
+ ['Financial Consolidation','Consolidates entities with ownership, minority interest, currency translation and eliminations handled automatically, under multiple accounting standards.'],
+ ['Close Management','Orchestrates period-end close and keeps reconciliations running continuously against the subledgers, instead of a once-a-month scramble.'],
+ ['Narrative & Disclosure Reporting','Produces narrative and disclosure reports on the same governed metrics and data lineage as every other report.'],
+ ['Enterprise Profitability Analysis','Analyses profitability and allocation across the enterprise from the underlying management accounting data.'],
+ ['High-Speed Calculation Engine','A shared, high-performance calculation layer for large multidimensional models, used by both planning and reporting so the numbers always match.']
+ ]},
+{g:'erp', id:'procurement', name:'Procurement', tag:'ERP · Supply',
+ intro:'Buying well, from the first requisition to supplier performance.',
+ connects:'Finance (AP), Supply Chain, Warehouse, Projects',
+ f:[
+ ['Purchase Requisitions','Internal requests to buy route through approval, linked to the employee, project or inventory need that triggered them.'],
+ ['Purchase Order Management','Issues purchase orders, records receipts and manages the supplier order lifecycle end to end, connected to payables and inventory.'],
+ ['Strategic Sourcing','Runs sourcing events, bids and tenders, and supports structured supplier selection using governed supplier data.'],
+ ['Procurement Contracts','Tracks supplier contracts and the obligations tied to them, connected to both supplier and finance records.'],
+ ['Supplier Management','Supplier onboarding, qualification and ongoing performance, managed from one central supplier profile.'],
+ ['Spend Analytics','Analyses spending patterns and surfaces procurement insight using the same governed metrics as the rest of the platform.']
+ ]},
+{g:'erp', id:'supply', name:'Supply Chain', tag:'ERP · Supply',
+ intro:'Knowing what\'s needed, where, and when.',
+ connects:'Sales, Procurement, Manufacturing, Warehouse, Inventory Agent',
+ f:[
+ ['Multi-Location Inventory','Tracks stock, valuation and status across all locations, updated in real time by sales, warehouse and manufacturing activity.'],
+ ['Demand Planning','Forecasts and plans future demand, with AI able to assist the forecasting process.'],
+ ['Supply Planning & Replenishment','Plans supply and replenishment in step with procurement and manufacturing capacity.'],
+ ['Order Promising','Gives customers realistic availability and delivery dates using live inventory and supply constraints, not a fixed lead-time guess.']
+ ]},
+{g:'erp', id:'pe', name:'Product Engineering', tag:'ERP · Manufacturing',
+ intro:'Defines the product accurately before it is built.',
+ connects:'Manufacturing, Quality, Management Accounting',
+ f:[
+ ['Product Lifecycle Management','One master definition of each product and its lifecycle stage, used consistently by every function that touches it.'],
+ ['Bill of Materials','The list of components and quantities that make up a product, connected directly to manufacturing and product costing.'],
+ ['Routing & Work Centers','Defines the sequence of operations and the work centers where they happen, connected to production planning.'],
+ ['Engineering Change Management','Product changes follow a version-controlled change process, so what\'s being built always matches the latest approved design.'],
+ ['Product Compliance & Traceability','Tracks product compliance and traceability, connected to quality and regulatory data.']
+ ]},
+{g:'erp', id:'mfg', name:'Manufacturing', tag:'ERP · Manufacturing',
+ intro:'Planning and running production on the shop floor.',
+ connects:'Product Engineering, Supply Chain, Quality, Management Accounting',
+ f:[
+ ['Production Planning & Scheduling','Plans and schedules production based on demand, available capacity and material availability.'],
+ ['Capacity Planning','Shows capacity and constraints, connected to work centers and resource availability.'],
+ ['Shop-Floor Control','Controls and tracks execution on the shop floor as production actually happens.'],
+ ['Process & Batch Manufacturing','Supports process and batch manufacturing with full traceability of what went into every batch.'],
+ ['Manufacturing Analytics','Reports manufacturing performance on the platform\'s governed metrics, not an offline spreadsheet.']
+ ]},
+{g:'erp', id:'quality', name:'Quality', tag:'ERP · Manufacturing',
+ intro:'Catching problems early — and proving they were fixed.',
+ connects:'Product Engineering, Manufacturing, Procurement, Warehouse',
+ f:[
+ ['Quality & Inspection Planning','Plans quality checks and inspections alongside product and process design.'],
+ ['Inspection & Acceptance','Records inspection results and accept/reject decisions, linked to the exact batch or lot they apply to.'],
+ ['Non-Conformance & CAPA','Tracks defects through corrective and preventive action, keeping evidence of the fix and of whether it actually worked.'],
+ ['Quality Audit Management','Manages quality audits with supporting evidence attached to each one.'],
+ ['Certificates & Traceability','Issues and tracks certificates connected to the supplier, product and lot records they cover.']
+ ]},
+{g:'erp', id:'warehouse', name:'Warehouse', tag:'ERP · Supply',
+ intro:'Getting goods in, stored correctly, and out again.',
+ connects:'Procurement, Quality, Sales & Distribution, Logistics',
+ f:[
+ ['Warehouse & Location Control','Defines warehouse structure, storage locations and inventory controls across many warehouses on one shared inventory model.'],
+ ['Receiving & Put-Away','Manages inbound goods and where they are stored, linked to the purchase order and any required quality check.'],
+ ['Picking & Packing','Runs picking, wave management and packing in step with sales fulfilment demand.'],
+ ['Mobile Warehouse Execution','Warehouse tasks run on handheld devices, with offline-first support where connectivity is weak.']
+ ]},
+{g:'erp', id:'logistics', name:'Logistics', tag:'ERP · Supply',
+ intro:'Moving goods efficiently from source to destination.',
+ connects:'Sales & Distribution, Warehouse, Finance',
+ f:[
+ ['Freight & Carrier Planning','Plans freight, manages carriers and handles rating and tendering, connected to the orders and shipments behind them.'],
+ ['Shipment Execution & Settlement','Tracks and executes shipments and manages freight settlement and claims from one shipment record.'],
+ ['Route Optimization','Optimises transport routes and shares the resulting ETAs and routing decisions with other teams.']
+ ]},
+{g:'erp', id:'sd', name:'Sales & Distribution', tag:'ERP · Order-to-cash',
+ intro:'Order-to-cash for physical goods, end to end — the ERP counterpart to the CRM sales module.',
+ connects:'Customer 360, Sales, Warehouse, Logistics, Finance (AR, Revenue Recognition)',
+ f:[
+ ['Customer Master & Credit','Customer master data, hierarchy, credit terms and risk profile, built on the same customer identity used by CRM.'],
+ ['Order Capture & Fulfillment','Captures orders with pricing and availability checks and passes them through to inventory and logistics.'],
+ ['Shipping & Delivery','Executes shipping and delivery, connected to warehouse and transportation.'],
+ ['Billing & Invoicing','Connects billing to receivables and revenue recognition, so a shipped order flows straight into an accurate invoice.'],
+ ['Rebates & Incentives','Manages rebate and incentive programmes linked to actual sales performance.']
+ ]},
+{g:'erp', id:'assets', name:'Asset Management', tag:'ERP · Operations',
+ intro:'Keeping physical assets running and properly accounted for.',
+ connects:'Finance (Fixed Assets), Customer Service (field, warranty, repair)',
+ f:[
+ ['Asset Lifecycle & Installed Base','Tracks each asset from acquisition to retirement, its hierarchy and the installed base at customer sites, linked to finance, maintenance and service.'],
+ ['Preventive & Predictive Maintenance','Plans scheduled maintenance, and predictive maintenance using condition and telemetry data where available.'],
+ ['Maintenance Work Orders','Creates and executes maintenance work orders, connected to parts, labour and the asset\'s own history.'],
+ ['Reliability & Condition Monitoring','Monitors asset reliability and current condition using the platform\'s maintenance intelligence.'],
+ ['Telemetry Integration','Feeds live sensor and condition data from equipment into the asset record for smarter maintenance decisions.']
+ ]},
+{g:'erp', id:'hcm', name:'HCM (People)', tag:'ERP · People',
+ intro:'Supporting the people who run the business, from hire to exit.',
+ connects:'Finance (payroll), Projects (resources), EPM (workforce plans), Identity & Access',
+ f:[
+ ['Worker Lifecycle Management','Tracks personnel and organisational changes — joining, transfers, promotions, exits — connected to identity and approval workflows.'],
+ ['Time & Attendance','Captures attendance and working time with approvals, including mobile capture in the field.'],
+ ['Payroll & Compensation','Processes payroll and compensation, integrated directly with finance.'],
+ ['Recruiting & Onboarding','Runs hiring and onboarding, flowing straight into the worker lifecycle once someone joins.'],
+ ['Benefits Administration','Administers employee benefits from one central worker record.'],
+ ['Learning & Development','Manages training and workforce development, connected to employee skills data.'],
+ ['Workforce Planning','Plans headcount by position using live position, cost and vacancy data rather than a static file.']
+ ]},
+{g:'erp', id:'projects', name:'Projects', tag:'ERP · Projects',
+ intro:'Delivering client and internal work on time and on budget.',
+ connects:'HCM, Finance, Procurement, Revenue Recognition',
+ f:[
+ ['Project Planning','Work breakdown structure, phases, tasks, dependencies, milestones and baselines, in a delivery-friendly interface backed by real project controls.'],
+ ['Project Costing','Captures project cost from time, expenses, payables, procurement, inventory and manufacturing, using actual and fully burdened rates.'],
+ ['Project Billing','Bills under time-and-materials, fixed-price, milestone, cost-plus, unit-rate, percentage-completion or retainage models, connected to revenue recognition.'],
+ ['Earned Value & Project Control','Tracks earned value, schedule and cost performance, estimate-at-completion and variances — showing a machine estimate next to the project manager\'s own.'],
+ ['Resource Management','Handles resource requests, availability, skills matching, booking and utilisation, connected to HCM workforce data.']
+ ]},
+{g:'erp', id:'ehs', name:'EHS (Environment, Health & Safety)', tag:'ERP · Compliance',
+ intro:'Keeping people, sites and the environment safe and compliant.',
+ connects:'Asset Management, HCM, Compliance Guardian, Immutable Audit Trail',
+ f:[
+ ['Safety Management','Manages safety permits and inspections with site, asset and workforce context attached.'],
+ ['Incident Management','Captures, investigates and tracks corrective action on incidents, preserving evidence and clear ownership.'],
+ ['Risk Assessment','Assesses risks and their controls, with mandatory review at set intervals or whenever conditions change.'],
+ ['Hazardous Substance Tracking','Tracks chemical inventory, safety data sheets and compatibility rules, enforced by location.'],
+ ['Occupational Health Records','Records exposure, medical exams and fitness-for-work status, with access kept separate and restricted.'],
+ ['Environmental Monitoring','Monitors emissions, discharge, waste, energy and water use, feeding directly into compliance disclosures.'],
+ ['Compliance Calendar & CAPA','A compliance calendar with audit evidence, e-signature and corrective-action tracking, all in an unchangeable audit trail.']
+ ]},
+{g:'erp', id:'retail', name:'Retail & Edge', tag:'ERP · Retail',
+ intro:'Point-of-sale and in-store commerce that keeps working online or offline.',
+ connects:'Sales, Supply Chain, Finance (ledger), Customer 360',
+ f:[
+ ['Point of Sale','The core retail transaction engine and checkout-lane operations, connected to sales, inventory and the ledger.'],
+ ['Self-Checkout','Self-checkout using the same transaction model as every other sales channel.'],
+ ['Mobile Point of Sale','Runs sales from a mobile device for staff working the floor or off-site.'],
+ ['Kiosk Transactions','Kiosk-based transactions against the same shared product, pricing and customer data.'],
+ ['Scan & Go','Customers scan items as they shop, connected to inventory and payment.'],
+ ['Offline Retail Autonomy','Keeps transactions processing without connectivity, then syncs and reconciles once back online.'],
+ ['Payment Processing','Processes payments with card data kept in its own isolated, compliant scope.'],
+ ['Fiscalisation & Compliance','Handles fiscal receipt and retail compliance rules that vary by country or state.'],
+ ['Hospitality Operations','A hospitality profile and back-of-house operations on the same shared retail engine.']
+ ]},
+
+/* ================= AI ================= */
+{g:'ai', id:'ai', name:'AI & Agents', tag:'AI · Workforce',
+ intro:'A governed team of AI agents that work across both CRM and ERP alongside your people. Each has one job, a defined authority, and every action is logged. The last two items are the controls that govern all the others.',
+ connects:'All modules, Autonomy & Approval Controls, AI Governance, Immutable Audit Trail',
+ f:[
+ ['Conversational Copilot','A natural-language assistant that answers questions and takes actions using the platform\'s real, governed data — not a guess dressed up as an answer.'],
+ ['SDR Agent','Qualifies inbound and outbound leads, enriches their data, scores and routes them, and books meetings straight onto a calendar.'],
+ ['Deal Agent','Chases follow-ups, suggests next steps and revives deals that have gone quiet, while mapping who else needs to be involved.'],
+ ['Negotiation Agent','Negotiates within pre-approved pricing, discount, payment and contract limits, escalating anything outside them to a person.'],
+ ['Quote Agent','Drafts quotes and orders automatically and routes them for the right approval before anything goes out.'],
+ ['Service Agent','Diagnoses, resolves and escalates support cases proactively, using case history, knowledge articles, asset data and entitlements together.'],
+ ['Retention Agent','Spots early signs of churn risk and runs an approved save-play to keep the customer.'],
+ ['Pricing Agent','Recommends prices and discounts within margin and policy limits set by the business.'],
+ ['Forecast Agent','Produces revenue and operational forecasts with scenarios, showing its reasoning and uncertainty rather than a bare number.'],
+ ['Inventory Agent','Predicts stock-outs and reorder points and recommends action, using combined demand and supply data.'],
+ ['Data Steward Agent','Finds duplicate, missing or anomalous data and manages the clean-up — with human approval before anything destructive.'],
+ ['Compliance Guardian','Monitors continuously for policy and compliance issues and prepares evidence ahead of time, instead of scrambling during an audit.'],
+ ['Meeting Agent','Transcribes meetings into summaries, decisions and action items, written straight into the customer\'s record.'],
+ ['Knowledge Agent','Finds gaps in the knowledge base and drafts or updates articles, tracking source, confidence and effective date.'],
+ ['Governed Digital Employees','Gives every AI agent an identity, a role, a reporting line, a budget of authority and a lifecycle — managed the way a human employee is.'],
+ ['Autonomy & Approval Controls','Sets human-in-the-loop checkpoints, approval gates, spending limits and rollback for every agent, so nothing acts outside its authority.']
+ ]},
+
+/* ================= PLATFORM ================= */
+{g:'pl', id:'platform', name:'Platform Foundation', tag:'Platform · Shared',
+ intro:'The shared foundation every CRM module, ERP module and AI agent is built on — data, events, analytics, security, integration and operations.',
+ connects:'Every module and every agent',
+ f:[
+ ['Shared Business Data Graph','One live, permission-aware graph of every customer, supplier, product, asset and employee record, shared by every module instead of duplicated.'],
+ ['Event-Driven Backbone','Carries every business, customer and system change as an event, so policies, agents and analytics react the moment something happens.'],
+ ['Governed Metrics Layer','Each business metric is defined once with an owner, certification status, lineage and change history, so two reports never quietly disagree.'],
+ ['Natural-Language Analytics','Turns a plain-language question into a governed data query, and shows the generated query for transparency.'],
+ ['Self-Service Analytics','A drag-and-drop analysis tool on certified data models, so analysts can explore data without writing queries.'],
+ ['Standard Report Packs','Ready-made report packs for finance, supply chain, revenue, people and platform data, all on the same governed metrics.'],
+ ['Workflow & Orchestration','Orchestrates business processes with tasks and decision rules, including steps that wait for a human to act.'],
+ ['Low-Code Builder','Build custom objects, flows and screens with low code; extensions are packaged so they can be shared and reused.'],
+ ['API & Integration Gateway','API gateway, event bus, webhooks, connectors and data-movement tools that connect to external ERP, billing, payment, inventory and identity systems.'],
+ ['EDI & Partner Network','Electronic data interchange and partner-network integration for enterprise transaction exchange.'],
+ ['Identity & Access Management','Central identity with role- and attribute-based access control and tenant isolation, controlling what each user and agent can see or do.'],
+ ['Encryption & Key Management','Encrypts data and manages encryption keys to enterprise security standards.'],
+ ['Consent & Privacy Controls','Applies consent, purpose-of-use, data-residency and privacy-rights rules automatically wherever data is accessed.'],
+ ['Data Loss Prevention','Data-loss-prevention and compliance controls, connected to the platform\'s compliance monitoring.'],
+ ['Immutable Audit Trail','A permanent, tamper-evident record of every action — by a person or an agent — for evidence and forensic review.'],
+ ['AI Governance','Governs AI model risk and explainability, recording the reasoning, evidence, policy outcome and result behind every AI decision.'],
+ ['Mobile Workspaces','Mobile workspaces for approvals and tasks, so work doesn\'t stop when someone steps away from a desk.'],
+ ['Offline-First Operations','Keeps warehouse, field and retail work running without a connection, queuing transactions and resolving conflicts once back online.'],
+ ['Adaptive Workspaces','Adjusts the workspace and embedded analytics each person sees based on their role and current context.'],
+ ['Multi-Tenancy & Isolation','Logical multi-tenancy plus a dedicated single-tenant option, with isolation enforced at the data-access layer.'],
+ ['Platform Observability','Real-time visibility into system health and integration status for operations teams.'],
+ ['Document Management','Folders, versioning and documents linked directly to the business records they belong to.']
+ ]}
+];
+
+const GROUPS = {
+  crm:{title:'CRM — Sell & serve', cls:'g-crm', intro:'Everything that touches the customer: records, leads, sales, engagement and service.'},
+  erp:{title:'ERP — Run & deliver', cls:'g-erp', intro:'Everything that runs the business: money, supply, making, moving, people, projects, safety and retail.'},
+  ai:{title:'AI agents', cls:'g-ai', intro:'Specialised agents that work across CRM and ERP data, each within approved limits.'},
+  pl:{title:'Platform foundation', cls:'g-pl', intro:'The shared layer underneath every module and agent.'}
+};
+
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function hl(text, q){
+  const t = esc(text);
+  if(!q) return t;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','ig');
+  return t.replace(re,'<mark>$1</mark>');
+}
+
+
+/* CRM flow tree */
+const CT_SHORT = {
+ 'Unified Customer Records':'One record per person, company or household, used by every team',
+ 'Customer Timeline & Memory':'Full interaction history, each fact with source and confidence',
+ 'Relationship Mapping':'Who connects to whom, and who decides inside an account',
+ 'Duplicate & Identity Matching':'Finds and merges the same customer across names and channels',
+ 'Consent Management':'What each customer agreed to, respected everywhere',
+ 'Conversational Lead Capture':'Leads captured from chat, email, SMS or voice',
+ 'Lead Scoring & Routing':'Score, enrich, qualify and assign to the right owner',
+ 'Lead Conversion Mapping':'Lead becomes contact, organisation and deal in one step',
+ 'Sales Pipeline Management':'Custom stages and win-probabilities feeding a live forecast',
+ 'Opportunity Management':'Deal value, products, pricing, risk and activity in one place',
+ 'Sales Engagement & Sequencing':'Sequences, playbooks, shared inbox and follow-ups',
+ 'Quoting & Pricing (CPQ)':'Quotes from price books and tax rules, with approvals',
+ 'Sales Order Management':'Approve orders and reserve stock for fulfilment',
+ 'Contracts & Subscriptions':'Renewals, terms and entitlements tracked as records',
+ 'Engagement & Loyalty':'Campaigns, offers, loyalty and next best action per customer',
+ 'Case Management':'Priority, SLA timer, status, sentiment and root cause per case',
+ 'Omnichannel Support':'Email, chat, forms and voice in one history, plus self-service portal',
+ 'Knowledge Base':'Governed articles used by both people and AI',
+ 'Customer Satisfaction Tracking':'CSAT after every resolved case',
+ 'Field Service Management':'Schedule and dispatch on-site technicians',
+ 'Warranty & Entitlements':'Route requests by what the customer is covered for',
+ 'Depot Repair & Returns':'Repair and return process, logged to the asset history'
+};
+const CT_SUB = {customer360:'One trusted record for every customer', leads:'First contact to qualified opportunity', sales:'Pipeline to signed order', cx:'Engagement after the sale', service:'Fast support with full history'};
+document.getElementById('crmTree').innerHTML = DATA.filter(d=>d.g==='crm').map(d=>`
+  <div class="ct-branch">
+    <a class="ct-mod" href="#d-${d.id}" style="display:block;text-decoration:none"><h4>${esc(d.name)}</h4><p>${esc(CT_SUB[d.id]||'')}</p><span class="n">${d.f.length} feature${d.f.length>1?'s':''}</span></a>
+    <ul class="ct-feats">${d.f.map(([t])=>`<li class="ct-feat"><div class="ct-card"><b>${esc(t)}</b><span>${esc(CT_SHORT[t]||'')}</span></div></li>`).join('')}</ul>
+  </div>`).join('');
+
+
+/* ERP flow tree */
+const ET_SUB = {finance:'One ledger, every book, every currency', mgmtacc:'Where cost and profit come from', epm:'Plan, forecast and close', procurement:'Requisition to supplier performance', supply:'What is needed, where and when', pe:'Define the product before building', mfg:'Plan and run production', quality:'Catch problems, prove the fix', warehouse:'Goods in, stored, and out', logistics:'Move goods source to destination', sd:'Order-to-cash for physical goods', assets:'Keep assets running and accounted', hcm:'Hire to exit for every worker', projects:'On time and on budget', ehs:'Safe, healthy and compliant', retail:'Point of sale, online or offline'};
+const ET_SHORT = {
+ 'Multi-Dimensional Chart of Accounts':'One chart for many entities, calendars and currencies',
+ 'Parallel Books of Record':'Local, group, tax and management books from one event',
+ 'Journal Controls & Audit Linkage':'Balanced, approved journals linked to source',
+ 'Rule-Driven Subledger Accounting':'Auto accounting entries from business events',
+ 'Accounts Payable':'Supplier invoice to approval to payment',
+ 'Accounts Receivable':'Customer billing, collections and balances',
+ 'Fixed Asset Accounting':'Capitalise, depreciate, transfer and retire assets',
+ 'Lease Accounting':'Full lease lifecycle and its accounting',
+ 'Treasury & Cash Management':'Bank, cash and liquidity in one view',
+ 'Revenue Recognition':'Revenue recognised in step with contracts and billing',
+ 'Tax Calculation & Reporting':'Jurisdiction-aware tax, auditable to source',
+ 'Expense Management':'Phone capture, receipt reading and policy checks',
+ 'Intercompany Transactions':'Match, net and settle between group companies',
+ 'Cost & Profit Centers':'Shared model of cost and profit owners',
+ 'Product Costing & Profitability':'Real product cost from live production data',
+ 'Activity-Based Costing':'Allocate overhead by actual drivers',
+ 'Integrated Planning & Budgeting':'One model for finance, workforce, sales and supply plans',
+ 'Driver-Based Planning':'Plans built from operational drivers',
+ 'Scenario Planning':'Test what-ifs without touching the shared plan',
+ 'Rolling Forecast':'Auto-rolling forecast with recorded overrides',
+ 'Financial Consolidation':'Ownership, currency and eliminations handled automatically',
+ 'Close Management':'Orchestrated close with continuous reconciliation',
+ 'Narrative & Disclosure Reporting':'Board and disclosure reports on governed data',
+ 'Enterprise Profitability Analysis':'Profitability and allocation across the enterprise',
+ 'High-Speed Calculation Engine':'Fast shared engine for planning and reporting',
+ 'Purchase Requisitions':'Internal buy requests with approval',
+ 'Purchase Order Management':'POs, receipts and supplier order lifecycle',
+ 'Strategic Sourcing':'Bids, tenders and supplier selection',
+ 'Procurement Contracts':'Supplier contracts and their obligations',
+ 'Supplier Management':'Onboard, qualify and rate suppliers',
+ 'Spend Analytics':'Where and how the company spends',
+ 'Multi-Location Inventory':'Stock and valuation across all locations, live',
+ 'Demand Planning':'AI-assisted demand forecasting',
+ 'Supply Planning & Replenishment':'Replenishment matched to buying and making capacity',
+ 'Order Promising':'Realistic delivery dates from live constraints',
+ 'Product Lifecycle Management':'One master product definition and lifecycle',
+ 'Bill of Materials':'Components that make each product',
+ 'Routing & Work Centers':'Operation steps and where they happen',
+ 'Engineering Change Management':'Version-controlled product changes',
+ 'Product Compliance & Traceability':'Product compliance tied to quality data',
+ 'Production Planning & Scheduling':'Schedule by demand, capacity and material',
+ 'Capacity Planning':'See constraints across work centers',
+ 'Shop-Floor Control':'Track production as it happens',
+ 'Process & Batch Manufacturing':'Batch production with full traceability',
+ 'Manufacturing Analytics':'Production performance on governed metrics',
+ 'Quality & Inspection Planning':'Plan checks alongside design',
+ 'Inspection & Acceptance':'Results and decisions per batch or lot',
+ 'Non-Conformance & CAPA':'Fix defects and prove the fix worked',
+ 'Quality Audit Management':'Audits with evidence attached',
+ 'Certificates & Traceability':'Certificates tied to supplier, product and lot',
+ 'Warehouse & Location Control':'Structure, bins and controls across warehouses',
+ 'Receiving & Put-Away':'Inbound goods linked to PO and quality check',
+ 'Picking & Packing':'Picking, waves and packing for orders',
+ 'Mobile Warehouse Execution':'Handheld tasks with offline support',
+ 'Freight & Carrier Planning':'Freight, carriers, rating and tendering',
+ 'Shipment Execution & Settlement':'Track shipments, settle freight and claims',
+ 'Route Optimization':'Best routes and ETAs',
+ 'Customer Master & Credit':'Customer data, credit terms and risk',
+ 'Order Capture & Fulfillment':'Orders with price and availability checks',
+ 'Shipping & Delivery':'Ship and deliver via warehouse and transport',
+ 'Billing & Invoicing':'Shipped order straight to accurate invoice',
+ 'Rebates & Incentives':'Rebates tied to actual sales',
+ 'Asset Lifecycle & Installed Base':'Every asset from purchase to retirement',
+ 'Preventive & Predictive Maintenance':'Scheduled and condition-based maintenance',
+ 'Maintenance Work Orders':'Work orders with parts, labour and history',
+ 'Reliability & Condition Monitoring':'Track asset reliability and condition',
+ 'Telemetry Integration':'Live equipment data into the asset record',
+ 'Worker Lifecycle Management':'Join, move, promote and exit',
+ 'Time & Attendance':'Attendance and hours with approvals, even on mobile',
+ 'Payroll & Compensation':'Payroll posted straight to finance',
+ 'Recruiting & Onboarding':'Hire and onboard new joiners',
+ 'Benefits Administration':'Employee benefits from one record',
+ 'Learning & Development':'Training linked to skills',
+ 'Workforce Planning':'Headcount plans from live position data',
+ 'Project Planning':'Tasks, dependencies, milestones and baselines',
+ 'Project Costing':'Actual and burdened cost from every source',
+ 'Project Billing':'T&M, fixed, milestone and more, linked to revenue',
+ 'Earned Value & Project Control':'Earned value, variances and forecast at completion',
+ 'Resource Management':'Book people by skill and availability',
+ 'Safety Management':'Permits and inspections with site context',
+ 'Incident Management':'Capture, investigate and fix incidents',
+ 'Risk Assessment':'Risks and controls with scheduled reviews',
+ 'Hazardous Substance Tracking':'Chemicals, SDS and storage rules',
+ 'Occupational Health Records':'Exposure and fitness-for-work, restricted access',
+ 'Environmental Monitoring':'Emissions, waste, energy and water',
+ 'Compliance Calendar & CAPA':'Deadlines, evidence and e-signatures',
+ 'Point of Sale':'Core checkout linked to stock and ledger',
+ 'Self-Checkout':'Customer self-checkout lanes',
+ 'Mobile Point of Sale':'Sell from a phone or tablet',
+ 'Kiosk Transactions':'Kiosk sales on shared product and price data',
+ 'Scan & Go':'Scan while shopping, pay and leave',
+ 'Offline Retail Autonomy':'Keep selling without internet, sync later',
+ 'Payment Processing':'Payments with isolated card data',
+ 'Fiscalisation & Compliance':'Country-specific fiscal rules',
+ 'Hospitality Operations':'Restaurant and back-of-house on same engine'
+};
+function erpTree(){
+  const mods = DATA.filter(d=>d.g==='erp');
+  const total = mods.reduce((a,d)=>a+d.f.length,0);
+  let rows='';
+  for(let i=0;i<mods.length;i+=4){
+    rows += '<div class="et-row">' + mods.slice(i,i+4).map(d=>`
+      <div class="et-branch">
+        <a class="et-mod" href="#d-${d.id}"><h5>${esc(d.name)}</h5><p>${esc(ET_SUB[d.id]||'')}</p><span class="n">${d.f.length} feature${d.f.length>1?'s':''}</span></a>
+        <ul class="et-feats">${d.f.map(([t])=>`<li class="et-feat"><div class="et-card"><b>${esc(t)}</b><span>${esc(ET_SHORT[t]||'')}</span></div></li>`).join('')}</ul>
+      </div>`).join('') + '</div>';
+  }
+  return `<div class="et" aria-label="ERP feature flow">
+    <div class="et-root"><div class="et-rootnode"><h4>ERP</h4><p>Enterprise Resource Planning · ${mods.length} modules · ${total} features</p></div>
+    <div class="et-stem" aria-hidden="true"></div></div>
+    <div class="et-rows">${rows}</div></div>`;
+}
+
+/* hero chips */
+['crm','erp'].forEach(g=>{
+  document.getElementById('chips-'+g).innerHTML = DATA.filter(d=>d.g===g)
+    .map(d=>`<a href="#d-${d.id}">${esc(d.name)}</a>`).join('');
+});
+
+let filter='all', query='';
+function render(){
+  const q = query.trim().toLowerCase();
+  let html='', total=0;
+  Object.keys(GROUPS).forEach(g=>{
+    if(filter!=='all' && filter!==g) return;
+    const G = GROUPS[g];
+    let groupHtml='', gCount=0;
+    DATA.filter(d=>d.g===g).forEach(d=>{
+      const domainHit = q && d.name.toLowerCase().includes(q);
+      const feats = d.f.filter(([t,x]) => !q || domainHit || t.toLowerCase().includes(q) || x.toLowerCase().includes(q));
+      if(!feats.length) return;
+      gCount += feats.length;
+      groupHtml += `<article class="domain ${G.cls}" id="d-${d.id}">
+        <div class="d-head"><h4>${hl(d.name,q)}</h4><span class="tag">${esc(d.tag)}</span>
+        <span class="d-count">${q ? feats.length+' of '+d.f.length : d.f.length} feature${d.f.length>1?'s':''}</span></div>
+        <p class="d-intro">${esc(d.intro)}</p>
+        <ul class="feats">${feats.map(([t,x])=>`<li><b>${hl(t,q)}</b><p>${hl(x,q)}</p></li>`).join('')}</ul>
+        <div class="connects"><b>Connects to:</b> ${esc(d.connects)}</div>
+      </article>`;
+    });
+    if(!gCount) return;
+    total += gCount;
+    html += `<div class="group ${G.cls}" id="g-${g}"><div class="group-title"><h3>${G.title}</h3><span>${gCount} feature${gCount>1?'s':''}</span></div>
+      <p class="group-intro">${G.intro}</p>${(g==='erp' && !q) ? erpTree() : ''}${groupHtml}</div>`;
+  });
+  const cat = document.getElementById('catalogue');
+  cat.innerHTML = html || `<div class="empty">No features match "${esc(query)}". Try a broader word such as "order", "tax" or "agent", or switch the filter back to All.</div>`;
+  document.getElementById('note').textContent = q ? `${total} feature${total===1?'':'s'} match "${query}"` : '';
+}
+render();
+
+document.getElementById('q').addEventListener('input', e=>{ query=e.target.value; render(); });
+document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>{
+  filter=b.dataset.f;
+  document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed', x===b ? 'true':'false'));
+  render();
+}));
+
+/* nav + hero links should reset filters so targets exist */
+document.querySelectorAll('a[href^="#g-"], a[href^="#d-"]').forEach(a=>a.addEventListener('click',()=>{
+  if(filter!=='all' || query){
+    filter='all'; query=''; document.getElementById('q').value='';
+    document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.f==='all'?'true':'false'));
+    render();
+  }
+}));
+
+/* theme toggle */
+const root=document.documentElement;
+try{ const s=localStorage.getItem('meridian-theme'); if(s) root.dataset.theme=s; }catch(e){}
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const dark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try{ localStorage.setItem('meridian-theme', root.dataset.theme); }catch(e){}
+});
+</script>
+</body>
+</html>
